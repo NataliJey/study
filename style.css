@@ -1,11 +1,78 @@
 body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-content: space-between;
+
+    font-family: cursive;
 
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
+
+    background-color: #eeeeee;
+}
+
+.crafting-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-grow: 1;
+
+    margin: 40px 20px 40px 150px;
+    border: black solid 2px;
+}
+
+.crafting-header {
+    display: flex;
+    flex-direction: row;
+
+    padding: 10px;
+    font-size: 30px;
+    background-color: #f5f5f5;
+}
+
+.crafting-grid-box {
+    background-color: #c6c6c6;
+}
+.crafting-grid {
+
+}
+.cell {
+    background-color: #8b8b8b;
+}
+.crafting-options {
+    background-color: #ffffff;
+}
+
+.crafting-preview-JSON {
+}
+
+.crafting-JSON-button {
+    font-size: 22px;
+    color: white;
+
+    margin: 10px 70px 10px 70px;
+    padding: 10px;
+    background-color: #337ab7;
+}
+
+.ingredients-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+
+    margin: 40px 150px 40px 20px;
+    border: black solid 2px;
+}
+
+.ingredients-header {
+}
+
+.ingredients-search-string {
+}
+
+.ingredients-list {
 }
