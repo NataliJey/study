@@ -34,14 +34,59 @@ body {
 }
 
 .crafting-grid-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     background-color: #c6c6c6;
+
+    padding: 10px;
 }
 .crafting-grid {
+    height: 105px;
+    width: 105px;
+    display: flex;
+    flex-wrap: wrap;
+
 
 }
 .cell {
+    height: 32px;
+    width: 32px;
+
+    border-right: 1px solid white;
+    border-bottom: 1px  solid white;
+    border-top:  1px solid  black;
+    border-left:  1px solid  black;
+
     background-color: #8b8b8b;
 }
+.arrow {
+    width: 32px;
+    height: 27px;
+    margin-left: 16px;
+    margin-right: 16px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAbCAAAAAA4rNJGAAAAQElEQVR42mM4hgG6u5F5DGQpQFZCrgKEEvIVwJRQogCihLCCbryAcgXd3ZQqIMYNlIcD7eKC0vRAaZqkNF+gAgA5zlZP3VSoCQAAAABJRU5ErkJggg==);
+}
+.cell-result {
+    height: 48px;
+    width: 48px;
+
+    border-right: 1px solid white;
+    border-bottom: 1px  solid white;
+    border-top:  1px solid  black;
+    border-left:  1px solid  black;
+
+    background-color: #8b8b8b;
+}
+.cell:hover {
+    background-color: #c6c6c6;
+}
+
+.cell-result:hover {
+    background-color: #c6c6c6;
+}
+
 .crafting-options {
     background-color: #ffffff;
 }
