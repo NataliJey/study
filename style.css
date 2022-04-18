@@ -88,9 +88,44 @@ body {
 }
 
 .crafting-options {
+    display: flex;
+    flex-direction: column;
     background-color: #ffffff;
 }
+.options-name {
+    margin: 15px;
+    padding: 5px;
+    border-bottom: 1px solid #8b8b8b;
+}
+input{
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    height: 25px;
+}
+input:focus {
+    outline: 1px solid blue;
+}
+.checkbox-label {
+    margin: 10px;
+}
+.options-contain{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: space-between;
+}
+.default-options-label {
+    padding-right: 15px;
+    padding-left: 15px;
+    flex-grow: 1;
 
+    font-weight: 700;
+
+}
+.default-options-input{
+    flex-grow: 12;
+    margin: 10px;
+}
 .crafting-preview-JSON {
 }
 

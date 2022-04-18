@@ -30,13 +30,19 @@
             <div class="options-name">
                 <span>Crafting Options</span>
             </div>
-            <label><input type="checkbox"> Shapeless?</label>
+            <label class="checkbox-label"><input class="checkbox-input" type="checkbox"> Shapeless?</label>
             <div class="options-name">
                 <span>Default Options</span>
             </div>
-            <label>Output Recipe:<input type="text"></label> <br>
+            <div class="options-contain">
+                <label class="default-options-label">Output Recipe:</label>
+                <input class="default-options-input" type="text">
+            </div>
             <p>Will output as crafting_recipe.json.</p>
-            <label>Group:<input type="text"></label>
+            <div class="options-contain">
+                <label class="default-options-label" >Group:</label>
+                <input class="default-options-input" type="text">
+            </div>
             <p>This will group items in the recipe book.
                 <a href="https://github.com/skylinerw/guides/blob/master/java/recipes.md#groups">Click here for a short explanation.</a>
             </p>
