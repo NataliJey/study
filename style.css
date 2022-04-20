@@ -18,10 +18,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    flex-grow: 1;
 
 
     margin: 40px 20px 40px 150px;
+    flex-basis: 45%;
     border: #8b8b8b solid 1px;
     border-radius: 10px;
 }
@@ -154,7 +154,8 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    flex-grow: 1;
+    flex-basis: 45%;
+
 
     margin: 40px 150px 40px 20px;
     border: #8b8b8b solid 1px;
@@ -191,7 +192,7 @@ p {
     flex-wrap: wrap;
 
     max-height: 700px;
-    max-width: 495px;
+    /*max-width: 495px;*/
 
     overflow-y: scroll;
 
