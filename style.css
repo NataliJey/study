@@ -192,7 +192,6 @@ p {
     flex-wrap: wrap;
 
     max-height: 700px;
-    /*max-width: 495px;*/
 
     overflow-y: scroll;
 
@@ -232,3 +231,4 @@ p {
 .item:hover {
     background-color: #c6c6c6;
 }
+
