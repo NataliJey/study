@@ -1,52 +1,75 @@
 $(function () {
 
     let $ingredientsList = $('.ingredients-list');
-    let url = 'https://api.allorigins.win/raw?url=https://vk.com/doc387129635_634241610?hash=19bjB2vcojacTm6MAPQNbjxkUK4bO9wBE7SLALB9ZU0&dl=U4IvZr0mwWAMO5x2DLNVJVVjTcz2ZOKD9QM5u2N4JWk';
-    let $itemImage;
-    // let $cell = $('.cell');
-    let $item;
+    let url = 'https://api.allorigins.win/raw?url=https://vk.com/doc387129635_634241879?hash=Z5XzIluqyxgzHjPy47WsBekXFS8N0bvGgNWPv6z62b8&dl=0ZzD86B7Io1tenl3Wt5HkcCD0ZmnOWXHQzZP6Gx01ST';
+    let $cells = $('.cell');
+
+
+    dragAndDrop();
 
     $.getJSON(url, function (json) {
         for (let i = 0; i < json.length; i++) {
             addIngredient(json[i]);
         }
         console.log(5);
-
-        $itemImage = $('.item-image');
-        $item = $('.item');
-        mousedown();
-        // mousemove()
-
     });
 
     function addIngredient(item) {
         let $ingredient = $(`
             <div class="item">
-                <img class="item-image" src="${item.image}" alt="${item.title}">
+                <img class="item-image" src="${item.image}" alt="${item.title}" draggable="false">
             </div>
         `);
         $ingredientsList.append($ingredient);
     }
 
-    function mousedown() {
-        $itemImage.mousedown(function () {
-            let itemImageCopy = $(`
-            <img class="item-image" src="${this.src}" alt="${this.alt}">`)
-
-            $(`body`).append(itemImageCopy);
-            let qwer = this.getBoundingClientRect()
-
-            console.log(itemImageCopy, qwer.x)
-
-        })
-    }
-    // Координаты курсора относительно всего документа
-    function mousemove() {
-        $(document).mousemove(function(event){
-            let x = event.pageX;
-            let y = event.pageY;
-            // console.log(x,y);
-        })
+    function isMouseInRect(event, rect) {
+        return event.pageX >= rect.left
+            && event.pageX <= rect.right
+            && event.pageY >= rect.top
+            && event.pageY <= rect.bottom;
     }
 
+    function getHoveredCell(event) {
+        for (let i = 0; i < $cells.length; i++) {
+            let rect = $cells[i].getBoundingClientRect();
+            if (isMouseInRect(event, rect)) {
+                return $($cells[i]);
+            }
+        }
+    }
+
+    function dragAndDrop() {
+        $(document).on('mousedown','.item-image',function (event) {
+            let $copy = $(`
+            <img class="item-image" src="${this.src}" alt="${this.alt}" draggable="false" style="position: absolute">`)
+
+            $(`body`).append($copy);
+
+            moveAt(event.pageX, event.pageY);
+            $(document).on('mousemove',onMouseMove);
+
+            $copy.mouseup(function(event) {
+                $copy.css('position', '');
+
+                let $hoveredCell = getHoveredCell(event);
+                if ($hoveredCell === undefined) {
+                    $copy.remove();
+                } else {
+                    $hoveredCell.empty();
+                    $hoveredCell.append($copy);
+                }
+                $(document).off('mousemove',onMouseMove)
+                $copy.off('mouseup');
+            });
+
+            function moveAt(pageX, pageY) {
+                $copy.css('left', pageX - $copy.width() / 2 + 'px');
+                $copy.css('top', pageY - $copy.height() / 2 + 'px');
+            }
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+        })
+    }
 });
