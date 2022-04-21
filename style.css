@@ -231,4 +231,8 @@ p {
 .item:hover {
     background-color: #c6c6c6;
 }
+.item-image {
+    height: 32px;
+    width: 32px;
+}
 
