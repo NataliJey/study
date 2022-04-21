@@ -49,6 +49,11 @@ $(function () {
             moveAt(event.pageX, event.pageY);
             $(document).on('mousemove',onMouseMove);
 
+            let $hoveredCell = getHoveredCell(event);
+
+            if ($hoveredCell) {
+                $hoveredCell.empty();
+            }
             $copy.mouseup(function(event) {
                 $copy.css('position', '');
 
