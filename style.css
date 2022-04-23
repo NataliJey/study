@@ -18,6 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    /*position: relative;*/
 
 
     margin: 40px 20px 40px 150px;
@@ -42,8 +43,9 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: #c6c6c6;
+    position: relative;
 
+    background-color: #c6c6c6;
     padding: 10px;
 }
 .crafting-grid {
@@ -72,6 +74,10 @@ body {
     margin-right: 16px;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAbCAAAAAA4rNJGAAAAQElEQVR42mM4hgG6u5F5DGQpQFZCrgKEEvIVwJRQogCihLCCbryAcgXd3ZQqIMYNlIcD7eKC0vRAaZqkNF+gAgA5zlZP3VSoCQAAAABJRU5ErkJggg==);
 }
+.cell-result-container{
+    position: relative;
+}
+
 .cell-result {
     display: flex;
     justify-content: center;
@@ -230,6 +236,20 @@ p {
 .item-image {
     height: 32px;
     width: 32px;
-    z-index: 1000;
+    user-select: none;
+}
+.items-count-input{
+    font-weight: bold;
+    color: white;
+    background: none;
+    border: none;
+    position: absolute;
+    text-align: right;
+    top: 20px;
+    width: 30px;
+    right: -9px;
+}
+.items-count-input:focus{
+    outline: none;
 }
 
