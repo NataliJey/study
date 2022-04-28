@@ -13,7 +13,12 @@ $(function () {
             addIngredient(json[i]);
         }
         console.log(5);
+    console.log($(`.item-image`)[0].id)
     });
+    let text = "Hello world, welcome to the universe.";
+    let result = text.includes("world");
+    console.log(result)
+    // TODO: Функция по поиску, нужно сделать jq там hide и show, как вытянуть id вверху в консоле, как проверить тоже, надо будет соединить воедино, плюс подумать как сделать чисто на jq
 
     function addIngredient(item) {
         let $ingredient = $(`
@@ -44,7 +49,7 @@ $(function () {
 
         $(document).on('mousedown','.item-image',function (event) {
             let $copy = $(`
-            <img class="item-image" src="${this.src}" alt="${this.alt}" draggable="false" style="position: absolute">`)
+            <img class="item-image" src="${this.src}" alt="${this.alt}" id="${this.id}" draggable="false" style="position: absolute">`)
 
             $(`body`).append($copy);
 
@@ -88,6 +93,8 @@ $(function () {
                 }
             }
 
+            // console.log($ingredientsList)
+            search()
             function moveAt(pageX, pageY) {
                 $copy.css('left', pageX - $copy.width() / 2 + 'px');
                 $copy.css('top', pageY - $copy.height() / 2 + 'px');
@@ -97,9 +104,10 @@ $(function () {
             }
         })
     }
+
     function search() {
-        for (const argument of arguments) {
-            
+        for (const argument of $ingredientsList) {
+            // console.log(argument)
         }
         // if () {}
     }
