@@ -1,7 +1,7 @@
 $(function () {
 
     let $ingredientsList = $('.ingredients-list');
-    let url = 'https://api.allorigins.win/raw?url=https://vk.com/doc387129635_634241879?hash=Z5XzIluqyxgzHjPy47WsBekXFS8N0bvGgNWPv6z62b8&dl=0ZzD86B7Io1tenl3Wt5HkcCD0ZmnOWXHQzZP6Gx01ST';
+    let url = 'https://raw.githubusercontent.com/NataliJey/study/main/items-1_16_5-100-items.json';
     let $cells = $('.cell');
     let $cellResult = $(`.cell.cell-result`);
 
@@ -46,29 +46,21 @@ $(function () {
             let $copy = $(`
             <img class="item-image" src="${this.src}" alt="${this.alt}" draggable="false" style="position: absolute">`)
 
-            console.log(1)
             $(`body`).append($copy);
 
-            console.log(2)
             moveAt(event.pageX, event.pageY);
 
-            console.log(3)
             let $hoveredCell = getHoveredCell(event);
 
-            console.log(4)
             if ($hoveredCell) {
                 $hoveredCell.empty();
+                if ($hoveredCell.is('.cell-result') === $cellResult.is('.cell-result')) {
+                    $(`.items-count-input`).remove();
+                }
             }
 
-            console.log(5)
-            if ($hoveredCell.is('.cell-result') === $cellResult.is('.cell-result')) {
-                $(`.items-count-input`).remove();
-            }
-
-            console.log(6)
             $(document).on('mousemove',onMouseMove);
 
-            console.log(7)
 
             $copy.mouseup(function(event) {
                 $copy.css('position', '');
@@ -89,7 +81,7 @@ $(function () {
             function isNeedInput($hoveredCell) {
                 if ($hoveredCell.is('.cell-result') === $cellResult.is('.cell-result')) {
                     let $input = $(`
-                <input class="items-count-input" type="number" min="1" max="64">`)
+                <input class="items-count-input" type="number" min="1" max="64" value="1">`)
 
                     $(`.items-count-input`).remove();
                     $(`.cell-result-container`).append($input);
@@ -105,7 +97,10 @@ $(function () {
             }
         })
     }
-    function f() {
-        
+    function search() {
+        for (const argument of arguments) {
+            
+        }
+        // if () {}
     }
 });
