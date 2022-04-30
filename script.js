@@ -4,21 +4,22 @@ $(function () {
     let url = 'https://raw.githubusercontent.com/NataliJey/study/main/items-1_16_5-100-items.json';
     let $cells = $('.cell');
     let $cellResult = $(`.cell.cell-result`);
-
+    let $itemImages;
+    let $searchInput = $(`.ingredients-search-input`);
+    let $items;
 
     dragAndDrop();
+    addListeners();
 
     $.getJSON(url, function (json) {
         for (let i = 0; i < json.length; i++) {
             addIngredient(json[i]);
         }
         console.log(5);
-    console.log($(`.item-image`)[0].id)
+        $itemImages = $(`.item-image`);
+        $items = $(`.item`);
+
     });
-    let text = "Hello world, welcome to the universe.";
-    let result = text.includes("world");
-    console.log(result)
-    // TODO: Функция по поиску, нужно сделать jq там hide и show, как вытянуть id вверху в консоле, как проверить тоже, надо будет соединить воедино, плюс подумать как сделать чисто на jq
 
     function addIngredient(item) {
         let $ingredient = $(`
@@ -47,10 +48,9 @@ $(function () {
 
     function dragAndDrop() {
 
-        $(document).on('mousedown','.item-image',function (event) {
+        $(document).on('mousedown', '.item-image', function (event) {
             let $copy = $(`
             <img class="item-image" src="${this.src}" alt="${this.alt}" id="${this.id}" draggable="false" style="position: absolute">`)
-
             $(`body`).append($copy);
 
             moveAt(event.pageX, event.pageY);
@@ -64,10 +64,10 @@ $(function () {
                 }
             }
 
-            $(document).on('mousemove',onMouseMove);
+            $(document).on('mousemove', onMouseMove);
 
 
-            $copy.mouseup(function(event) {
+            $copy.mouseup(function (event) {
                 $copy.css('position', '');
 
                 let $hoveredCell = getHoveredCell(event);
@@ -79,7 +79,7 @@ $(function () {
                     $hoveredCell.append($copy);
                     isNeedInput($hoveredCell);
                 }
-                $(document).off('mousemove',onMouseMove)
+                $(document).off('mousemove', onMouseMove)
                 $copy.off('mouseup');
             });
 
@@ -93,22 +93,40 @@ $(function () {
                 }
             }
 
-            // console.log($ingredientsList)
             search()
+
             function moveAt(pageX, pageY) {
                 $copy.css('left', pageX - $copy.width() / 2 + 'px');
                 $copy.css('top', pageY - $copy.height() / 2 + 'px');
             }
+
             function onMouseMove(event) {
                 moveAt(event.pageX, event.pageY);
             }
         })
     }
 
+    function addListeners() {
+        $searchInput.keydown(function () {
+            search()
+        })
+        $searchInput.keyup(function () {
+            search()
+        })
+    }
+
     function search() {
-        for (const argument of $ingredientsList) {
-            // console.log(argument)
+        for (let i = 0; i < $itemImages.length; i++) {
+            let searchString = $searchInput.val().toLowerCase();
+            let alt = $itemImages[i].alt.toLowerCase();
+            let id = $itemImages[i].id.toLowerCase();
+            if (id.includes(searchString)||alt.includes(searchString)) {
+                $($itemImages[i]).show();
+                $($items[i]).show();
+            } else {
+                $($itemImages[i]).hide();
+                $($items[i]).hide();
+            }
         }
-        // if () {}
     }
 });
