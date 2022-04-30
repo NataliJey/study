@@ -93,8 +93,6 @@ $(function () {
                 }
             }
 
-            search()
-
             function moveAt(pageX, pageY) {
                 $copy.css('left', pageX - $copy.width() / 2 + 'px');
                 $copy.css('top', pageY - $copy.height() / 2 + 'px');
