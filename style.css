@@ -59,6 +59,7 @@ body {
 .cell {
     height: 32px;
     width: 32px;
+    position: relative;
 
     border-right: 1px solid white;
     border-bottom: 1px  solid white;
@@ -223,6 +224,7 @@ p {
     height: 32px;
     width: 32px;
 
+    /*position: relative;*/
     border-right: 1px solid white;
     border-bottom: 1px  solid white;
     border-top:  1px solid  black;
@@ -251,5 +253,21 @@ p {
 }
 .items-count-input:focus{
     outline: none;
+}
+.item-plate {
+    text-align: left;
+    background-color: #100010;
+    background-color: rgba(16,0,16,.94);
+    color: #fff;
+    padding: 6px;
+    font-size: 16px;
+    word-spacing: 4px;
+    line-height: 20px;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    margin: 2px 4px;
+    position: absolute;
+    /*top: 100%;*/
+    /*left: 0;*/
+    z-index: 99;
 }
 

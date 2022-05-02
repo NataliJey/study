@@ -18,13 +18,20 @@ $(function () {
         console.log(5);
         $itemImages = $(`.item-image`);
         $items = $(`.item`);
+        $items.find('.item-plate').hide();
+        $cells.find('.item-plate').hide();
 
+        plate();
     });
 
     function addIngredient(item) {
         let $ingredient = $(`
             <div class="item">
                 <img class="item-image" id="${item.id}" src="${item.image}" alt="${item.title}" draggable="false">
+                <div class="item-plate">
+                    <div>${item.title}</div> 
+                    <div>${item.id}</div>
+                </div>
             </div>
         `);
         $ingredientsList.append($ingredient);
@@ -37,11 +44,11 @@ $(function () {
             && event.pageY <= rect.bottom;
     }
 
-    function getHoveredCell(event) {
-        for (let i = 0; i < $cells.length; i++) {
-            let rect = $cells[i].getBoundingClientRect();
+    function getHoveredElement(event, elements) {
+        for (let i = 0; i < elements.length; i++) {
+            let rect = elements[i].getBoundingClientRect();
             if (isMouseInRect(event, rect)) {
-                return $($cells[i]);
+                return $(elements[i]);
             }
         }
     }
@@ -50,12 +57,17 @@ $(function () {
 
         $(document).on('mousedown', '.item-image', function (event) {
             let $copy = $(`
-            <img class="item-image" src="${this.src}" alt="${this.alt}" id="${this.id}" draggable="false" style="position: absolute">`)
+            <img class="item-image" src="${this.src}" alt="${this.alt}" id="${this.id}" draggable="false" style="position: absolute">
+                <div class="item-plate" style="top: 100%; left: 0;">
+                    <div>${this.alt}</div> 
+                    <div>${this.id}</div>
+                </div>`);
             $(`body`).append($copy);
+            $copy.filter('.item-plate').hide();
 
             moveAt(event.pageX, event.pageY);
 
-            let $hoveredCell = getHoveredCell(event);
+            let $hoveredCell = getHoveredElement(event,$cells);
 
             if ($hoveredCell) {
                 $hoveredCell.empty();
@@ -70,7 +82,7 @@ $(function () {
             $copy.mouseup(function (event) {
                 $copy.css('position', '');
 
-                let $hoveredCell = getHoveredCell(event);
+                let $hoveredCell = getHoveredElement(event,$cells);
 
                 if ($hoveredCell === undefined) {
                     $copy.remove();
@@ -94,8 +106,8 @@ $(function () {
             }
 
             function moveAt(pageX, pageY) {
-                $copy.css('left', pageX - $copy.width() / 2 + 'px');
-                $copy.css('top', pageY - $copy.height() / 2 + 'px');
+                $copy.filter('.item-image').css('left', pageX - $copy.width() / 2 + 'px');
+                $copy.filter('.item-image').css('top', pageY - $copy.height() / 2 + 'px');
             }
 
             function onMouseMove(event) {
@@ -126,5 +138,20 @@ $(function () {
                 $($items[i]).hide();
             }
         }
+    }
+
+    function plate() {
+        $(document).on('mousemove', function (event) {
+            $items.find('.item-plate').hide();
+            $cells.find('.item-plate').hide();
+            let $item = getHoveredElement (event,$items);
+            let $cell = getHoveredElement (event,$cells);
+            if ($item) {
+                $item.find('.item-plate').show();
+            }
+            if ($cell) {
+                $cell.find('.item-plate').show();
+            }
+        } );
     }
 });
