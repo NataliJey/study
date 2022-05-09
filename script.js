@@ -1,12 +1,14 @@
 $(function () {
 
-    let $ingredientsList = $('.ingredients-list');
     let url = 'https://raw.githubusercontent.com/NataliJey/study/main/items-1_16_5-100-items.json';
+    let $ingredientsList = $('.ingredients-list');
     let $cells = $('.cell');
     let $cellResult = $(`.cell.cell-result`);
     let $itemImages;
     let $searchInput = $(`.ingredients-search-input`);
     let $items;
+
+    let $checkbox = $(`.checkbox-input`);
 
     dragAndDrop();
     addListeners();
@@ -20,8 +22,8 @@ $(function () {
         $items = $(`.item`);
         $items.find('.item-plate').hide();
         $cells.find('.item-plate').hide();
-
         plate();
+        updateJson();
     });
 
     function addIngredient(item) {
@@ -67,13 +69,14 @@ $(function () {
 
             moveAt(event.pageX, event.pageY);
 
-            let $hoveredCell = getHoveredElement(event,$cells);
+            let $hoveredCell = getHoveredElement(event, $cells);
 
             if ($hoveredCell) {
                 $hoveredCell.empty();
                 if ($hoveredCell.is('.cell-result') === $cellResult.is('.cell-result')) {
                     $(`.items-count-input`).remove();
                 }
+                updateJson();
             }
 
             $(document).on('mousemove', onMouseMove);
@@ -82,7 +85,7 @@ $(function () {
             $copy.mouseup(function (event) {
                 $copy.css('position', '');
 
-                let $hoveredCell = getHoveredElement(event,$cells);
+                let $hoveredCell = getHoveredElement(event, $cells);
 
                 if ($hoveredCell === undefined) {
                     $copy.remove();
@@ -90,18 +93,20 @@ $(function () {
                     $hoveredCell.empty();
                     $hoveredCell.append($copy);
                     isNeedInput($hoveredCell);
+                    updateJson();
                 }
                 $(document).off('mousemove', onMouseMove)
                 $copy.off('mouseup');
             });
 
             function isNeedInput($hoveredCell) {
-                if ($hoveredCell.is('.cell-result') === $cellResult.is('.cell-result')) {
+                if ($hoveredCell.is('.cell-result')) {
                     let $input = $(`
                 <input class="items-count-input" type="number" min="1" max="64" value="1">`)
 
                     $(`.items-count-input`).remove();
                     $(`.cell-result-container`).append($input);
+                    updateJson();
                 }
             }
 
@@ -116,21 +121,20 @@ $(function () {
         })
     }
 
-    function addListeners() {
-        $searchInput.keydown(function () {
-            search()
-        })
-        $searchInput.keyup(function () {
-            search()
-        })
-    }
+    $(document).on("click", '.items-count-input', function () {
+        updateJson();
+    })
+    $(document).on("click", '.checkbox-input', function () {
+        updateJson();
+    })
+
 
     function search() {
         for (let i = 0; i < $itemImages.length; i++) {
             let searchString = $searchInput.val().toLowerCase();
             let alt = $itemImages[i].alt.toLowerCase();
             let id = $itemImages[i].id.toLowerCase();
-            if (id.includes(searchString)||alt.includes(searchString)) {
+            if (id.includes(searchString) || alt.includes(searchString)) {
                 $($itemImages[i]).show();
                 $($items[i]).show();
             } else {
@@ -144,14 +148,66 @@ $(function () {
         $(document).on('mousemove', function (event) {
             $items.find('.item-plate').hide();
             $cells.find('.item-plate').hide();
-            let $item = getHoveredElement (event,$items);
-            let $cell = getHoveredElement (event,$cells);
+            let $item = getHoveredElement(event, $items);
+            let $cell = getHoveredElement(event, $cells);
             if ($item) {
                 $item.find('.item-plate').show();
             }
             if ($cell) {
                 $cell.find('.item-plate').show();
             }
-        } );
+        });
     }
+
+    function updateJson() {
+        let recipe;
+        if (isChecked($checkbox)) {
+            recipe = {
+                type: "minecraft:crafting_shapeless",
+                ingredients: [],
+            }
+            addIngredients(recipe);
+        } else {
+            recipe = {
+                type: "minecraft:crafting_shaped",
+                pattern: [],
+                key: {},
+            }
+        }
+        addResult(recipe);
+        displayJson(recipe);
+    }
+
+    function addIngredients(recipe) {
+        let itemImageInCell = $('.cell:not(.cell-result)').find('.item-image');
+        for (let i = 0; i < itemImageInCell.length; i++) {
+            recipe.ingredients.push({item:itemImageInCell[i].id});
+        }
+    }
+
+    function addResult(recipe) {
+        recipe.result = {};
+        let itemImageInCellResult = $('.cell-result').find('.item-image');
+        if (itemImageInCellResult.length > 0) {
+            recipe.result.item = itemImageInCellResult[0].id;
+            recipe.result.count = +$(`.items-count-input`).val();
+        }
+    }
+    function displayJson(recipe) {
+        let json = JSON.stringify(recipe, null, '    ');
+        $(`pre`).text(json);
+    }
+    function isChecked($element) {
+        return $element[0].checked;
+    }
+
+    function addListeners() {
+        $searchInput.keydown(function () {
+            search()
+        })
+        $searchInput.keyup(function () {
+            search()
+        })
+    }
+
 });
