@@ -7,6 +7,7 @@ $(function () {
     let $itemImages;
     let $searchInput = $(`.ingredients-search-input`);
     let $items;
+    let idItems = {};
 
     let $checkbox = $(`.checkbox-input`);
 
@@ -174,29 +175,47 @@ $(function () {
                 key: {},
             }
             addKey(recipe);
+            addPattern(recipe);
         }
         addResult(recipe);
         displayJson(recipe);
     }
 
-    function addKey(recipe) {
-        let itemImagesInCell = $('.cell:not(.cell-result)').find('.item-image');
-        let idItems = [];
-        for (let i = 0; i < itemImagesInCell.length; i++) {
-            let itemImageInCell = itemImagesInCell[i];
-            if (!idItems.includes(itemImageInCell.id)) {
-                let nameItem = getNameItem(recipe, itemImageInCell);
-                recipe.key[nameItem] = {item: itemImageInCell.id};
-                idItems.push(itemImageInCell.id);
-            }
+    function addIngredients(recipe) {
+        let $itemImagesInCell = $('.cell:not(.cell-result)').find('.item-image');
+        for (let i = 0; i < $itemImagesInCell.length; i++) {
+            recipe.ingredients.push({item: $itemImagesInCell[i].id});
         }
     }
 
-    function addIngredients(recipe) {
-        let itemImageInCell = $('.cell:not(.cell-result)').find('.item-image');
-        for (let i = 0; i < itemImageInCell.length; i++) {
-            recipe.ingredients.push({item: itemImageInCell[i].id});
+    function addKey(recipe) {
+        let $itemImagesInCell = $('.cell:not(.cell-result)').find('.item-image');
+        idItems = {};
+        for (let i = 0; i < $itemImagesInCell.length; i++) {
+            let itemImageInCell = $itemImagesInCell[i];
+            if (!isKeyInObject(itemImageInCell.id, idItems)) {
+                let nameItem = getNameItem(recipe, itemImageInCell);
+                recipe.key[nameItem] = {item: itemImageInCell.id};
+                idItems[itemImageInCell.id] = nameItem;
+            }
         }
+        console.log(idItems);
+    }
+
+    function addPattern(recipe) {
+        let $cells = $('.cell:not(.cell-result)');
+        recipe.pattern = ["", "", ""];
+        for (let i = 0; i < $cells.length; i++) {
+            let $cell = $($cells[i]);
+            let $itemImageInCell = $cell.find('.item-image');
+            let y = Math.floor(i / 3);
+            let positionItem = " ";
+            if ($itemImageInCell.length > 0) {
+                positionItem = idItems[$itemImageInCell[0].id]
+            }
+            recipe.pattern[y] += positionItem;
+        }//TODO сейчас позиция сделана на целый квадрат три на три, нужно, чтобы она фиксилась, если предметы стоят в квадрате два на два и убирались лишние
+        //    пробелы. Остались инпуты с опциями, не забыть доделать и кнопку скачивания
     }
 
     function getNameItem(recipe, itemImageInCell) {
@@ -221,9 +240,9 @@ $(function () {
 
     function addResult(recipe) {
         recipe.result = {};
-        let itemImageInCellResult = $('.cell-result').find('.item-image');
-        if (itemImageInCellResult.length > 0) {
-            recipe.result.item = itemImageInCellResult[0].id;
+        let $itemImageInCellResult = $('.cell-result').find('.item-image');
+        if ($itemImageInCellResult.length > 0) {
+            recipe.result.item = $itemImageInCellResult[0].id;
             recipe.result.count = +$(`.items-count-input`).val();
         }
     }
