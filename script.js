@@ -40,10 +40,10 @@ $(function () {
     }
 
     function isMouseInRect(event, rect) {
-        return event.pageX >= rect.left
-            && event.pageX <= rect.right
-            && event.pageY >= rect.top
-            && event.pageY <= rect.bottom;
+        return event.clientX >= rect.left
+            && event.clientX <= rect.right
+            && event.clientY >= rect.top
+            && event.clientY <= rect.bottom;
     }
 
     function getHoveredElement(event, elements) {
@@ -173,16 +173,50 @@ $(function () {
                 pattern: [],
                 key: {},
             }
+            addKey(recipe);
         }
         addResult(recipe);
         displayJson(recipe);
     }
 
+    function addKey(recipe) {
+        let itemImagesInCell = $('.cell:not(.cell-result)').find('.item-image');
+        let idItems = [];
+        for (let i = 0; i < itemImagesInCell.length; i++) {
+            let itemImageInCell = itemImagesInCell[i];
+            if (!idItems.includes(itemImageInCell.id)) {
+                let nameItem = getNameItem(recipe, itemImageInCell);
+                recipe.key[nameItem] = {item: itemImageInCell.id};
+                idItems.push(itemImageInCell.id);
+            }
+        }
+    }
+
     function addIngredients(recipe) {
         let itemImageInCell = $('.cell:not(.cell-result)').find('.item-image');
         for (let i = 0; i < itemImageInCell.length; i++) {
-            recipe.ingredients.push({item:itemImageInCell[i].id});
+            recipe.ingredients.push({item: itemImageInCell[i].id});
         }
+    }
+
+    function getNameItem(recipe, itemImageInCell) {
+        let nameItem = "#";
+        if (isKeyInObject(nameItem, recipe.key)) {
+            nameItem = itemImageInCell.alt.charAt(0);
+        }
+        while (isKeyInObject(nameItem, recipe.key)) {
+            nameItem = getRandomLetter();
+        }
+        return nameItem;
+    }
+
+    function isKeyInObject(key, object) {
+        return key in object;
+    }
+
+    function getRandomLetter() {
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
     function addResult(recipe) {
@@ -193,10 +227,12 @@ $(function () {
             recipe.result.count = +$(`.items-count-input`).val();
         }
     }
+
     function displayJson(recipe) {
         let json = JSON.stringify(recipe, null, '    ');
         $(`pre`).text(json);
     }
+
     function isChecked($element) {
         return $element[0].checked;
     }
