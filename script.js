@@ -205,18 +205,39 @@ $(function () {
     function addPattern(recipe) {
         let $cells = $('.cell:not(.cell-result)');
         recipe.pattern = ["", "", ""];
+        let minX = 2;
+        let maxX = 0;
+        let minY = 2;
+        let maxY = 0;
         for (let i = 0; i < $cells.length; i++) {
             let $cell = $($cells[i]);
             let $itemImageInCell = $cell.find('.item-image');
+            let x = i % 3;
             let y = Math.floor(i / 3);
             let positionItem = " ";
             if ($itemImageInCell.length > 0) {
                 positionItem = idItems[$itemImageInCell[0].id]
+                if (x < minX) {
+                    minX = x;
+                }
+                if (x > maxX) {
+                    maxX = x;
+                }
+                if (y < minY) {
+                    minY = y;
+                }
+                if (y > maxY) {
+                    maxY = y;
+                }
             }
             recipe.pattern[y] += positionItem;
-        }//TODO сейчас позиция сделана на целый квадрат три на три, нужно, чтобы она фиксилась, если предметы стоят в квадрате два на два и убирались лишние
-        //    пробелы. Остались инпуты с опциями, не забыть доделать и кнопку скачивания
+        }
+        recipe.pattern = recipe.pattern.slice(minY,maxY+1);
+        for (let i = 0; i < recipe.pattern.length; i++) {
+            recipe.pattern[i] = recipe.pattern[i].substring(minX,maxX+1);
+        }
     }
+
 
     function getNameItem(recipe, itemImageInCell) {
         let nameItem = "#";
