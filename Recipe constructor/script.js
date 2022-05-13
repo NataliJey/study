@@ -1,6 +1,6 @@
 $(function () {
 
-    let url = 'https://raw.githubusercontent.com/NataliJey/study/main/items-1_16_5.json';
+    let url = 'https://raw.githubusercontent.com/NataliJey/study/main/Recipe constructor/items-1_16_5.json';
     let $ingredientsList = $('.ingredients-list');
     let $cells = $('.cell');
     let $cellResult = $(`.cell.cell-result`);
