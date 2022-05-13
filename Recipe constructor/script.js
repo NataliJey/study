@@ -1,6 +1,6 @@
 $(function () {
 
-    let url = 'https://raw.githubusercontent.com/NataliJey/study/main/items-1_16_5-100-items.json';
+    let url = 'https://raw.githubusercontent.com/NataliJey/study/main/items-1_16_5.json';
     let $ingredientsList = $('.ingredients-list');
     let $cells = $('.cell');
     let $cellResult = $(`.cell.cell-result`);
@@ -8,6 +8,8 @@ $(function () {
     let $searchInput = $(`.ingredients-search-input`);
     let $items;
     let idItems = {};
+    let $buttonJson = $(`.crafting-JSON-button`);
+    let recipe;
 
     let $checkbox = $(`.checkbox-input`);
 
@@ -161,7 +163,6 @@ $(function () {
     }
 
     function updateJson() {
-        let recipe;
         if (isChecked($checkbox)) {
             recipe = {
                 type: "minecraft:crafting_shapeless",
@@ -178,6 +179,7 @@ $(function () {
             addPattern(recipe);
         }
         addResult(recipe);
+        addGroup(recipe);
         displayJson(recipe);
     }
 
@@ -199,7 +201,6 @@ $(function () {
                 idItems[itemImageInCell.id] = nameItem;
             }
         }
-        console.log(idItems);
     }
 
     function addPattern(recipe) {
@@ -259,6 +260,23 @@ $(function () {
         return possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
+    $(document).on('input','.default-options-group-input',function () {
+        updateJson();
+    })
+    $(document).on('input','.default-options-input',function () {
+        updatePreviewFileName();
+    })
+    function updatePreviewFileName() {
+        let previewFileName = $('.preview-file-name');
+        previewFileName.text('Will output as: ' + $(`.default-options-input`).val() + '.json');
+    }
+
+    function addGroup(recipe) {
+        let groupName = $(`.default-options-group-input`).val();
+        if (groupName!=='') {
+            recipe.group = groupName;
+        }
+    }
     function addResult(recipe) {
         recipe.result = {};
         let $itemImageInCellResult = $('.cell-result').find('.item-image');
@@ -286,4 +304,22 @@ $(function () {
         })
     }
 
+    $buttonJson.click(function () {
+        let json = JSON.stringify(recipe, null, '    ');
+        let fileName = $(`.default-options-input`).val();
+        download(fileName + '.json',json);
+
+    })
+    function download(filename, text) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
 });

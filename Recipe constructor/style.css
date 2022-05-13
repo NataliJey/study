@@ -132,6 +132,10 @@ input:focus {
     flex-grow: 15;
     margin: 10px 10px 10px 0;
 }
+.default-options-group-input{
+    flex-grow: 15;
+    margin: 10px 10px 10px 0;
+}
 p {
     font-size: 13px;
     margin: 10px;
