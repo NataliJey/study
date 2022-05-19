@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <style>
+        .minecraft-item-list {
+            display: flex;
+            flex-wrap: wrap;
+            width: 400px;
+        }
+        .minecraft-item {
+            padding: 4px;
+        }
+        .minecraft-item img {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+</head>
+<body>
+<div id='minecraft-items' class='minecraft-item-list'>
+
+</div>
+<script>
+    $(function () {
+        let $minecraftItems = $('#minecraft-items');
+
+        $.get({
+            url: 'https://api.allorigins.win/raw?url=https://vk.com/doc387129635_634241610?hash=19bjB2vcojacTm6MAPQNbjxkUK4bO9wBE7SLALB9ZU0&dl=U4IvZr0mwWAMO5x2DLNVJVVjTcz2ZOKD9QM5u2N4JWk',
+            dataType: 'json',
+            success: minecraftItems => {
+                Array.from(minecraftItems).forEach(itemInfo => {
+                    let $item = $('<div class="minecraft-item">');
+                    let $image = $('<img src="' + itemInfo.image + '">');
+
+                    $item.attr('data-id', itemInfo.id);
+                    $image.attr('title', itemInfo.title);
+
+                    $item.append($image);
+                    $minecraftItems.append($item);
+                });
+            },
+        });
+    });
+</script>
+</body>
+</html>

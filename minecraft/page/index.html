@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+    <link rel='stylesheet' href='style.css' />
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='script.js'></script>
+</head>
+<body>
+<div class='root'>
+    <div class='page-column'>
+        <div class='panel crafting-panel'>
+            <div class='panel-header'>
+                Крафт
+            </div>
+            <div class='panel-body'>
+                <div id='crafting-table' class='crafting-table minecraft-panel minecraft-border'>
+                    <div class='crafting-table-title minecraft-text'>
+                        Crafting
+                    </div>
+                    <div class='crafting-table-body'>
+                        <div id='crafting-table-grid' class='crafting-table-grid'>
+
+                        </div>
+                        <div class='crafting-table-arrow'>
+                            <img class='minecraft-arrow' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAbCAAAAAA4rNJGAAAAQElEQVR42mM4hgG6u5F5DGQpQFZCrgKEEvIVwJRQogCihLCCbryAcgXd3ZQqIMYNlIcD7eKC0vRAaZqkNF+gAgA5zlZP3VSoCQAAAABJRU5ErkJggg==' />
+                        </div>
+                        <div id='crafting-table-result' class='crafting-table-result'>
+                            <input id='crafting-table-result-count'
+                                   class='crafting-table-result-count minecraft-text'
+                                   type='number' min='1' max='64' value='1' />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='panel options-panel'>
+            <div class='panel-header'>
+                Дополнительные параметры
+            </div>
+            <div class='panel-body'>
+                <div class='input-container'>
+                    <input id='shapless-checkbox' type='checkbox' />
+                    <label for='shapless-checkbox'>
+                        Бесформенный
+                    </label>
+                </div>
+                <div class='input-group'>
+                    <div class='input-container'>
+                        <label for='filename-input'>
+                            Имя файла:
+                        </label>
+                        <input id='filename-input' type='text' value='filename' />
+                    </div>
+                    <p class='input-description'>
+                        Файл будет сохранен как
+                        <code id='filename-preview' class='filename-preview'>
+                            <span class='filename'>filename</span>.json
+                        </code>
+                    </p>
+                </div>
+                <div class='input-group'>
+                    <div class='input-container'>
+                        <label for='group-input'>
+                            Группа:
+                        </label>
+                        <input id='group-input' type='text' />
+                    </div>
+                    <p class='input-description'>
+                        Имя группы, в которой будет отображаться рецепт в книге рецептов.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class='panel result-panel'>
+            <div class='panel-header'>
+                Результат
+            </div>
+            <div class='panel-body'>
+                <pre id='json-preview' class='json-preview'></pre>
+                <button id='download-button' class='primary-button'>
+                    Скачать файл
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class='page-column'>
+        <div class='panel ingredients-panel'>
+            <div class='panel-header'>
+                Ингредиенты
+            </div>
+            <div class='panel-body'>
+                <div class='input-container search-container'>
+                    <label for='search-input'>
+                        Поиск:
+                    </label>
+                    <input id='search-input' type='text' />
+                </div>
+                <div id='minecraft-items' class='ingredient-list minecraft-panel minecraft-border'>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <img id='dragged-item' class='dragged-item' src='' style='display: none;' />
+    <div id='minecraft-item-tooltip' class='minecraft-tooltip' style='display: none;'>
+        <div class='minecraft-text item-title'></div>
+        <div class='minecraft-text item-id'></div>
+    </div>
+</div>
+
+</body>
+</html>
