@@ -70,7 +70,7 @@ $(function () {
 
 
 
-    // Подготовка страницы
+    // Подготовка страницы 12345456
 
     function createCraftingTableGrid() {
         for (let y = 0; y < 3; y++) {
